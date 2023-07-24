@@ -26,11 +26,13 @@ jobs:
           java-version: "8"
           distribution: "temurin"
           cache: maven
-      - name: Compile code with Maven
-        run: mvn -B compile
+      - name: Check code style with Maven CheckStyle
+        run: mvn -B checkstyle:checkstyle
         continue-on-error: true
+      - name: Compile code with Maven
+        run: mvn -B compile -Dcheckstyle.skip
       - name: Compile tests with Maven
-        run: mvn -B test-compile
+        run: mvn -B test-compile -Dcheckstyle.skip
       - name: Run tests with Maven
         run: mvn -B test
 
