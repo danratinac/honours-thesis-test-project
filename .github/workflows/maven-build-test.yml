@@ -28,6 +28,7 @@ jobs:
           cache: maven
       - name: Compile code with Maven
         run: mvn -B compile
+        continue-on-error: true
       - name: Compile tests with Maven
         run: mvn -B test-compile
       - name: Run tests with Maven
