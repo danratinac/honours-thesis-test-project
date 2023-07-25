@@ -31,8 +31,8 @@ class AppTest {
         assertEquals(2, math.divide(4, 2));
     }
 
-    @Test
-    void failTest() {
-        assertEquals(1, 2);
-    }
+    // @Test
+    // void failTest() {
+    // assertEquals(1, 2);
+    // }
 }
