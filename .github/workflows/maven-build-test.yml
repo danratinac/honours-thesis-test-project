@@ -34,7 +34,7 @@ jobs:
       - name: Compile code with Maven
         run: >
           mvn -Dcheckstyle.skip -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
-          -B compile
+          -B compiler:compile
       - name: Compile tests with Maven
         run: >
           mvn -Dcheckstyle.skip -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
