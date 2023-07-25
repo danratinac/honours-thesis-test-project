@@ -23,12 +23,12 @@ class AppTest {
 
     @Test
     void testMultiply() {
-        assertEquals(4, math.add(2, 2));
+        assertEquals(4, math.multiply(2, 2));
     }
 
     @Test
     void testDivide() {
-        assertEquals(2, math.add(4, 2));
+        assertEquals(2, math.divide(4, 2));
     }
 
     @Test
