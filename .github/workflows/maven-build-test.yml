@@ -29,7 +29,7 @@ jobs:
       - name: Check code style with Maven CheckStyle
         run: >
           mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
-          -B checkstyle:checkstyle
+          -B checkstyle:check
         continue-on-error: true
       - name: Compile code with Maven
         run: >
