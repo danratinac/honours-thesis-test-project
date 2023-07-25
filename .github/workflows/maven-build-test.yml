@@ -27,14 +27,22 @@ jobs:
           distribution: "temurin"
           cache: maven
       - name: Check code style with Maven CheckStyle
-        run: mvn -B checkstyle:checkstyle
+        run: >
+          mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
+          -B checkstyle:checkstyle
         continue-on-error: true
       - name: Compile code with Maven
-        run: mvn -B compile -Dcheckstyle.skip
+        run: >
+          mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
+          -B compile -Dcheckstyle.skip
       - name: Compile tests with Maven
-        run: mvn -B test-compile -Dcheckstyle.skip
+        run: >
+          mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
+          -B test-compile -Dcheckstyle.skip
       - name: Run tests with Maven
-        run: mvn -B test
+        run: >
+          mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
+          -B test
 
       # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
       - name: Update dependency graph
