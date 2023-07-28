@@ -48,3 +48,8 @@ jobs:
         run: >
           mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
           -B surefire:test
+      - name: Junit Report to Annotations
+        uses: ashley-taylor/junit-report-annotations-action@1.4
+        with:
+          access-token: ${{ secrets.GITHUB_TOKEN }}
+        if: always()
