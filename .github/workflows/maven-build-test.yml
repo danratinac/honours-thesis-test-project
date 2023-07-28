@@ -36,6 +36,7 @@ jobs:
         uses: jwgmeligmeyling/checkstyle-github-action@v1.2
         with:
           path: "**/checkstyle-result.xml"
+          name: Checkstyle Results
       - name: Compile code
         run: >
           mvn -Dcheckstyle.skip -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
