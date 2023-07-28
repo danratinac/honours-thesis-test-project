@@ -29,8 +29,12 @@ jobs:
       - name: Check code style with Maven CheckStyle
         run: >
           mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
-          -B checkstyle:check
+          -B checkstyle:checkstyle
         continue-on-error: true
+      - name: Push Checkstyle report
+        uses: jwgmeligmeyling/checkstyle-github-action@v1.2
+        with:
+          path: "**/checkstyle-result.xml"
       - name: Compile code with Maven
         run: >
           mvn -Dcheckstyle.skip -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
