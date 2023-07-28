@@ -27,29 +27,30 @@ jobs:
           java-version: "8"
           distribution: "temurin"
           cache: maven
-      - name: Check code style with Maven CheckStyle
+      - name: Check code style with CheckStyle
         run: >
           mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
           -B checkstyle:checkstyle
         continue-on-error: true
-      - name: Push Checkstyle report
+      - name: Report Checkstyle results
         uses: jwgmeligmeyling/checkstyle-github-action@v1.2
         with:
           path: "**/checkstyle-result.xml"
-      - name: Compile code with Maven
+      - name: Compile code
         run: >
           mvn -Dcheckstyle.skip -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
           -B compiler:compile
-      - name: Compile tests with Maven
+      - name: Compile unit tests
         run: >
           mvn -Dcheckstyle.skip -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
           -B compiler:testCompile
-      - name: Run tests with Maven
+      - name: Run unit tests
         run: >
           mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
           -B surefire:test
-      - name: Junit Report to Annotations
+      - name: Report results of unit tests
         uses: ashley-taylor/junit-report-annotations-action@1.4
         with:
           access-token: ${{ secrets.GITHUB_TOKEN }}
+          name: JUnit Test Results
         if: always()
