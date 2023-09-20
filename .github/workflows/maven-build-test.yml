@@ -38,7 +38,21 @@ jobs:
           path: "**/checkstyle-result.xml"
           name: Checkstyle Results
           title: Checkstyle Results
-      - name: Check code for bugs with Spotbugs
+      - name: Check source code with PMD
+        run: >
+          mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+          -B pmd:pmd
+      - name: Report PMD results
+        uses: jwgmeligmeyling/pmd-github-action@v1.2
+        with:
+          path: "**/pmd.xml"
+          name: PMD Results
+          title: Issues with Source Code
+      - name: Compile code
+        run: >
+          mvn -Dcheckstyle.skip -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
+          -B compiler:compile
+      - name: Check bytecode for bugs with Spotbugs
         run: >
           mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
           -B spotbugs:spotbugs
@@ -48,10 +62,6 @@ jobs:
           path: "**/spotbugsXml.xml"
           name: Spotbugs Results
           title: Spotbugs Results
-      - name: Compile code
-        run: >
-          mvn -Dcheckstyle.skip -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
-          -B compiler:compile
       - name: Compile unit tests
         run: >
           mvn -Dcheckstyle.skip -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
