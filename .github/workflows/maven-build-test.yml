@@ -48,16 +48,12 @@ jobs:
         run: >
           mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
           -B compiler:testCompile
-      - name: Run unit tests
-        run: >
-          mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
-          -B surefire:test
-      - name: Report Checkstyle results
-        uses: jwgmeligmeyling/checkstyle-github-action@v1.2
-        with:
-          path: "**/checkstyle-result.xml"
-          name: Code Style Issues
-          title: Code Style Issues
+          - name: Report Checkstyle results
+          uses: jwgmeligmeyling/checkstyle-github-action@v1.2
+          with:
+            path: "**/checkstyle-result.xml"
+            name: Code Style Issues
+            title: Code Style Issues
       - name: Report PMD results
         uses: jwgmeligmeyling/pmd-github-action@v1.2
         with:
@@ -70,6 +66,10 @@ jobs:
           path: "**/spotbugsXml.xml"
           name: Static Analysis Results (Bytecode)
           title: Static Analysis Results (Bytecode)
+      - name: Run unit tests
+        run: >
+          mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
+          -B surefire:test
       - name: Report results of unit tests
         uses: ashley-taylor/junit-report-annotations-action@1.4
         with:
