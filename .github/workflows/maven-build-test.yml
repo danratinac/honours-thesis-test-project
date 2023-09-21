@@ -71,7 +71,7 @@ jobs:
           mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
           -B surefire:test
       - name: Report results of unit tests
-        uses: ashley-taylor/junit-report-annotations-action@1.4
+        uses: danratinac/junit-report-annotations-action@v1
         with:
           access-token: ${{ secrets.GITHUB_TOKEN }}
           name: Unit Test Results
