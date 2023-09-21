@@ -32,36 +32,18 @@ jobs:
           mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
           -B checkstyle:checkstyle
         continue-on-error: true
-      - name: Report Checkstyle results
-        uses: jwgmeligmeyling/checkstyle-github-action@v1.2
-        with:
-          path: "**/checkstyle-result.xml"
-          name: Checkstyle Results
-          title: Checkstyle Results
-      - name: Check source code with PMD
+      - name: Static analysis of source code with PMD
         run: >
           mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
           -B pmd:pmd
-      - name: Report PMD results
-        uses: jwgmeligmeyling/pmd-github-action@v1.2
-        with:
-          path: "**/pmd.xml"
-          name: PMD Results
-          title: Issues with Source Code
       - name: Compile code
         run: >
           mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
           -B compiler:compile
-      - name: Check bytecode for bugs with Spotbugs
+      - name: Static analysis of bytecode with Spotbugs
         run: >
           mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
           -B spotbugs:spotbugs
-      - name: Push SpotBugs report
-        uses: jwgmeligmeyling/spotbugs-github-action@v1.2
-        with:
-          path: "**/spotbugsXml.xml"
-          name: Spotbugs Results
-          title: Spotbugs Results
       - name: Compile unit tests
         run: >
           mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
@@ -70,9 +52,28 @@ jobs:
         run: >
           mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
           -B surefire:test
+      # REPORTING
+      - name: Report Checkstyle results
+        uses: jwgmeligmeyling/checkstyle-github-action@v1.2
+        with:
+          path: "**/checkstyle-result.xml"
+          name: Code Style Issues
+          title: Code Style Issues
+      - name: Report PMD results
+        uses: jwgmeligmeyling/pmd-github-action@v1.2
+        with:
+          path: "**/pmd.xml"
+          name: Static Analysis Results (Source Code)
+          title: Static Analysis Results (Source Code)
+      - name: Push SpotBugs report
+        uses: jwgmeligmeyling/spotbugs-github-action@v1.2
+        with:
+          path: "**/spotbugsXml.xml"
+          name: Static Analysis Results (Bytecode)
+          title: Static Analysis Results (Bytecode)
       - name: Report results of unit tests
         uses: ashley-taylor/junit-report-annotations-action@1.4
         with:
           access-token: ${{ secrets.GITHUB_TOKEN }}
-          name: JUnit Test Results
+          name: Unit Test Results
         if: always()
