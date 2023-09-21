@@ -16,4 +16,9 @@ public class BasicMath {
     public int divide(int a, int b) {
         return a / b;
     }
+
+    public void noGood() {
+        Number[] arr = new Integer[10];
+        arr[0] = 1.0;
+    }
 }
