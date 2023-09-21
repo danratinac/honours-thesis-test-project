@@ -52,7 +52,6 @@ jobs:
         run: >
           mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
           -B surefire:test
-      # REPORTING
       - name: Report Checkstyle results
         uses: jwgmeligmeyling/checkstyle-github-action@v1.2
         with:
@@ -65,7 +64,7 @@ jobs:
           path: "**/pmd.xml"
           name: Static Analysis Results (Source Code)
           title: Static Analysis Results (Source Code)
-      - name: Push SpotBugs report
+      - name: Report SpotBugs results
         uses: jwgmeligmeyling/spotbugs-github-action@v1.2
         with:
           path: "**/spotbugsXml.xml"
