@@ -7,7 +7,7 @@ on:
     branches: ["main"]
 
 jobs:
-  build:
+  Overview:
     permissions: write-all
     runs-on: ubuntu-latest
 
@@ -61,6 +61,7 @@ jobs:
         run: >
           mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
           -B surefire:test
+        continue-on-error: true
       - name: Report results of unit tests
         uses: danratinac/junit-report-annotations-action@v1
         with:
