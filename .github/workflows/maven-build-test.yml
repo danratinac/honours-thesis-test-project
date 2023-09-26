@@ -31,7 +31,7 @@ jobs:
       - name: Compile code
         run: >
           mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
-          -X -B compiler:compile
+          -B compiler:compile
       - name: Static analysis of bytecode with Spotbugs
         run: >
           mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
