@@ -1,13 +1,16 @@
 name: Java CI with Maven
 
+# runs whenever an update is pushed to remote repo
 on: push
 
 jobs:
   Overview:
     permissions: write-all
+    # currently runs on Ubuntu but will also work with Windows and MacOS
     runs-on: ubuntu-latest
 
     steps:
+      # checkout code and setup environment
       - uses: actions/checkout@v3
       - name: Set up JDK 8
         uses: actions/setup-java@v3
@@ -15,27 +18,29 @@ jobs:
           java-version: "8"
           distribution: "temurin"
           cache: maven
-      - name: Check code style with CheckStyle
+      # flag any issues with code style based on Checkstyle configuration
+      - name: Check code style with Checkstyle
+        # note that many of the maven commands are run with the following long parameter to reduce logging verbosity
         run: >
           mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
           -B checkstyle:checkstyle
         continue-on-error: true
+      # flag any common issues in source code based on PMD configuration
       - name: Static analysis of source code with PMD
         run: >
           mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
           -B pmd:pmd
+      # compile the code
       - name: Compile code
         run: >
           mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
           -B compiler:compile
-      - name: Static analysis of bytecode with Spotbugs
+      # flag any common issues with the compile byte code based on SpotBugs configuration
+      - name: Static analysis of bytecode with SpotBugs
         run: >
           mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
           -B spotbugs:spotbugs
-      - name: Compile unit tests
-        run: >
-          mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
-          -B compiler:testCompile
+      # report the results of static analysis
       - name: Report Checkstyle results
         uses: jwgmeligmeyling/checkstyle-github-action@v1.2
         with:
@@ -54,13 +59,21 @@ jobs:
           path: "**/spotbugsXml.xml"
           name: Static Analysis Results (Bytecode)
           title: Static Analysis Results (Bytecode)
+      # compile unit tests
+      - name: Compile unit tests
+        run: >
+          mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
+          -B compiler:testCompile
+      # run unit tests with Surefire and JUnit
       - name: Run unit tests
         run: >
           mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn 
           -B surefire:test
+      # report the results of unit tests
       - name: Report results of unit tests
         uses: danratinac/junit-report-annotations-action@v1
         with:
           access-token: ${{ secrets.GITHUB_TOKEN }}
           name: Unit Test Results
+        # ensure that reporting always runs even if some tests fail
         if: always()
